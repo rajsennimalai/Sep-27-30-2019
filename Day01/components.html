@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="solverminds"></div>
+        <script type="text/jsx">
+            //A component in react is a class that extends React.Component
+            //and overrides render() method that returns JSX
+            
+            class Header extends React.Component {
+                render() {
+                    let h1 = <h1>Hello React</h1>;
+                    return h1;
+                }
+            }
+
+            class Footer extends React.Component {
+                render() {
+                    return (<h5>Copyrights reserved, 2019.</h5>);
+                }
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (<div>
+                        <Header/>
+                        <hr/>
+                        <br/><br/><br/>
+                        <Footer/>    
+                    </div>);
+                }
+            }
+
+            ReactDOM.render(<App/>, document.getElementById("solverminds"));
+        </script>
+    </body>
+</html>        
