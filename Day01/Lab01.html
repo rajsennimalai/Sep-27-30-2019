@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <style>
+            .login {
+                background-color: aqua;
+            }
+            .correct {
+                color: green;
+            }
+            .incorrect {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="solverminds"></div>
+        <script type="text/jsx">
+            function loginButtonClicked() {
+                let userName = document.getElementById("username").value;
+                let password = document.getElementById("password").value;
+                if(userName === "admin" && password === "admin") {
+                    ReactDOM.render(<h3 className="correct">Logging in...</h3>, 
+                            document.getElementById("result"));
+                    document.getElementById("loginbutton").disabled = true;        
+                }
+                else {
+                    ReactDOM.render(<h3 className="incorrect">Incorrect username or password</h3>, 
+                            document.getElementById("result"));
+                }
+            }
+            let loginForm = (<div className="login">
+                <input type="text" id="username" placeholder="Username"></input>
+                <br/>
+                <input type="password" id="password" placeholder="*******"></input>
+                <br/>
+                <button onClick={loginButtonClicked} id="loginbutton">Login</button>
+                <div id="result"></div>
+            </div>);
+            ReactDOM.render(loginForm, document.getElementById("solverminds"));
+        </script>
+    </body>
+</html>        
