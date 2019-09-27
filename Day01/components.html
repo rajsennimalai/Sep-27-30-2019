@@ -5,7 +5,7 @@
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     </head>
     <body>
-        <div id="solverminds"></div>
+        <div id="root"></div>
         <script type="text/jsx">
             //A component in react is a class that extends React.Component
             //and overrides render() method that returns JSX
@@ -23,18 +23,48 @@
                 }
             }
 
+            class LoginForm extends React.Component {
+
+                loginButtonClicked() {
+                    let userName = document.getElementById("username").value;
+                    let password = document.getElementById("password").value;
+                    if(userName === "admin" && password === "admin") {
+                        ReactDOM.render(<h3 className="correct">Logging in...</h3>, 
+                                document.getElementById("result"));
+                        document.getElementById("loginbutton").disabled = true;        
+                    }
+                    else {
+                        ReactDOM.render(<h3 className="incorrect">Incorrect username or password</h3>, 
+                                document.getElementById("result"));
+                    }
+                }
+                render() {
+                    return (<div className="login">
+                            <input type="text" id="username" placeholder="Username"></input>
+                            <br/>
+                            <input type="password" id="password" placeholder="*******"></input>
+                            <br/>
+                            <button onClick={this.loginButtonClicked} id="loginbutton">Login</button>
+                            <div id="result"></div>
+                    </div>);
+                }
+            }
+
             class App extends React.Component {
                 render() {
-                    return (<div>
+                    return (<div style={{textAlign: "center"}}>
                         <Header/>
                         <hr/>
+                        <LoginForm/>
                         <br/><br/><br/>
                         <Footer/>    
                     </div>);
                 }
             }
+            //ReactDOM.render(<Button>click</Button>, document.getElementById("solverminds"));
+            //ReactDOM.render(<app/>, document.getElementById("solverminds"));
 
-            ReactDOM.render(<App/>, document.getElementById("solverminds"));
+            ReactDOM.render(<App/>, document.getElementById("root"));
         </script>
     </body>
 </html>        
