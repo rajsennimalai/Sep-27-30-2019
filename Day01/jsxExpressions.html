@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="solverminds"></div>
+        <script type="text/jsx">
+            function getTime() {
+                return new Date().toLocaleString();
+            }
+            let message = "What the hell is going on?";
+            let now = new Date().toLocaleString();
+            
+            let h1 = <h1>{now}</h1>
+            let header = <h2>{message}</h2>;
+            let timeHeader = <h3>{getTime()}</h3>;
+            function displayTime() {
+                console.log(new Date().toLocaleString());
+            }
+            let btn = <button onClick={displayTime}>Click</button>;
+            
+            ReactDOM.render(btn, document.getElementById("solverminds"));
+            //onClick onChange onFocus onBlur
+        </script>
+    </body>
+ </html>       
