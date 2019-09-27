@@ -5,7 +5,21 @@
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     </head>
     <body>
+        
         <!-- Babel transpiler -->
         <div id="solverminds"></div>
+        <script type="text/jsx">
+            let tb = <input type="text"></input>;
+            let h1 = <h1>Hello JSX</h1>;
+            let button = <button>Click</button>
+            let div = (<div>
+                  <h1>Hello JSX</h1>
+                  <br/>  
+                  <input type="text"></input>
+                  <br/>
+                  <button>Click</button>
+            </div>);
+            ReactDOM.render(div, document.getElementById("solverminds"));
+        </script>
     </body>
 </html> 
