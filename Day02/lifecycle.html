@@ -1,0 +1,54 @@
+<html>
+	<head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>	
+	<body>
+		<div id="root"></div>
+		<script type="text/jsx">
+		    class Lifecycle extends React.Component {
+		        constructor(props) {
+		            super(props);
+		            this.state = {
+		              message: ''  
+		            };
+		            this.buttonClicked = this.buttonClicked.bind(this);
+		        }
+        		//CALLED FIRST TIME ONLY AFTER rendered
+			    componentDidMount() {
+					//FIRE REQUESTS TO SERVER AFTER THE COMPONENT IS RENDERED
+			        console.log("componentDidMount called");
+			    }
+			    
+				//CALLED AFTER EVERY UPDATE OF STATE; AFTER render()
+				componentDidUpdate() {
+				  //PUSH DATA TO LOCAL STORAGE OR CREATE COOKIES
+				  //LOG AUDITS	
+			      console.log("componentDidUpdate called");  
+			    }
+				//USED TO BY-PASS CALLS TO render()
+			    shouldComponentUpdate(obj, latest) {
+					//YOU'LL HAVE YOUR CUSTOM LOGIC 
+			        console.log("shouldComponentUpdate called", latest, this.state.message);
+					return false;
+			    }
+		
+		        buttonClicked() {
+		            console.log("buttonClicked called")
+		            this.setState({
+		                message: new Date().toLocaleTimeString()
+		            });
+		        }
+		        render() {
+		            console.log("render called");
+		            return (<div>
+		                <button onClick={this.buttonClicked}>Click</button>
+		                <h1>{ this.state.message }</h1>    
+		            </div>);
+		        }
+		    }
+		    ReactDOM.render(<Lifecycle/>,document.getElementById("root"));
+		</script>	
+	</body>	
+</html>
