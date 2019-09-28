@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/jsx">
+            //WHENEVER STATE changes render() is called again automatically
+            class StateExample extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        currentTemperature: '',
+                        now: ''
+                    };
+                    this.getTemperature = this.getTemperature.bind(this);
+                    this.getTime = this.getTime.bind(this);
+                }
+                getTime() {
+                    this.setState({
+                        now: new Date().toLocaleString()
+                    })
+                }
+                getTemperature() {
+                    let currentTemperature = Math.random() * 40;
+                    this.setState({
+                        currentTemperature
+                    });
+                    //this.state.currentTemperature = currentTemperature;
+                }
+                render() {
+                    return (<div>
+                        <button onClick={this.getTime}>Get Time</button>
+                        <h2>{this.state.now}</h2>
+                        <hr/>
+                        <button onClick={this.getTemperature}>Get Temperature</button>
+                        <h2>{this.state.currentTemperature}</h2>
+                    </div>);
+                }
+            }
+            ReactDOM.render(<StateExample/>, document.getElementById("root"));
+        </script>
+    </body>
+</html>            
