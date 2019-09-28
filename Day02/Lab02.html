@@ -1,0 +1,93 @@
+<html>
+	<head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	</head>	
+	<body>
+        <div id="root"></div>
+        <script type="text/jsx">
+            class Lab02 extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        countries: [],
+                        countrySelected: ''
+                    }
+                    this.countryChanged = this.countryChanged.bind(this);
+                }
+
+                countryChanged(e) {
+                    this.setState({ countrySelected: e.target.value });
+                }
+
+                getCityList() {
+                    let { countries, countrySelected } = this.state;
+                    let citiesInJSX = [];
+                    //OUTDATED STYLE
+                    for(let i=0; i < countries.length; i++) {
+                        let country = countries[i];
+                        if(countrySelected == country.name) {
+                            let { cities } = country;
+                            citiesInJSX.push(<option key="selectcity">--SELECT--</option>);
+                            for(let j = 0; j < cities.length; j++) {
+                               let item = <option key={cities[j]}>{cities[j]}</option>; 
+                               citiesInJSX.push(item);
+                            }
+                            break; //VAJPAYEE STYLE
+                        }
+                    }
+                    return citiesInJSX;
+                }
+
+                componentDidMount() {
+                   
+                    let { countries } = this.state;
+                    if(localStorage.getItem("countries") != null) {
+                        countries = JSON.parse(localStorage.getItem("countries"));
+                        this.setState({ countries });
+                    } 
+                    else {
+                        //Ideally fire a request to server
+                        countries = [
+                            { name: "India", cities: ["Pune", "Chennai", "Kochi"] },
+                            { name: "US", cities: ["Houston", "NYC", "NJ"] },
+                            { name: "UK", cities: ["Ireland", "England", "Scotland"] }
+                        ]; 
+                        this.setState({ countries }, () => {
+                            let countriesInJSON = JSON.stringify(countries);
+                            localStorage.setItem("countries", countriesInJSON);
+                        });
+                    }
+
+                }
+
+                getCountryList() {
+                    let { countries } = this.state;
+                    let countriesInJSX = [];
+                    countriesInJSX.push(<option key="selectcountry">--SELECT--</option>);
+                    for(let i = 0; i < countries.length; i++) {
+                        let { name } = countries[i];
+                        let item = <option key={name}>{name}</option>;
+                        countriesInJSX.push(item);
+                    }
+
+                    return countriesInJSX;
+                }
+
+                render() {
+                    return (<div>
+                        Country <select onChange={this.countryChanged}>
+                            { this.getCountryList() }
+                        </select>
+                        <br/>
+                        City <select>
+                            { this.getCityList() }
+                        </select>
+                    </div>);
+                }
+            }
+            ReactDOM.render(<Lab02/>, document.getElementById("root"));
+        </script>
+    </body>
+</html>            
