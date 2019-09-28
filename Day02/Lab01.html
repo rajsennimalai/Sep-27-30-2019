@@ -3,6 +3,11 @@
         <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <style>
+            .gameover {
+                background-color: green;
+            }
+        </style>
     </head>
     <body>
         <div id="root"></div>
@@ -13,9 +18,14 @@
                     this.attempts = 0;
                     this.message = "";
                     this.gameOver = false;
+                    this.gameHistory = [];
                 }
                 play(guess) {
                     this.attempts += 1;
+                    this.gameHistory.push({
+                        attempts: this.attempts,
+                        guess
+                    });
                     if(guess >  this.target) {
                         this.message = "Aim Lower";
                     }
@@ -51,6 +61,20 @@
                     this.setState({ game });  
                 }
 
+                getGameHistory() {
+                    let jsxRows = [];
+                    let { gameHistory, target } = this.state.game;
+                    for(let i=0; i < gameHistory.length; i++) {
+                        let item = gameHistory[i];
+                        let cssClassName = target == item.guess ? "gameover" : "";
+                        let row = (<tr className={cssClassName}>
+                            <td>{ item.attempts }</td>
+                            <td>{ item.guess }</td>
+                        </tr>);
+                        jsxRows.push(row);
+                    }
+                    return jsxRows;
+                }    
 
                 render() {
                    let { message, attempts, gameOver } = this.state.game;
@@ -63,10 +87,35 @@
                        <h4>{ message }</h4>
 
                        <h4>{ attempts > 0 ? "Attempts: " + attempts : ""  }</h4>
+                       <hr/>
+                       <table style={{display: gameOver ? 'block' : 'none'}}>
+                           <thead>
+                               <tr>
+                                   <th>Attempt</th>
+                                   <th>Guess</th>
+                               </tr>
+                           </thead>    
+                           <tbody>
+                               { this.getGameHistory() }
+                           </tbody>    
+                       </table>     
+
+
+
+
+
+
                    </div>); 
                 }
             }
             ReactDOM.render(<GameComponent/>, document.getElementById("root"));
+/*
+style="display:none; background-color:green;"
+
+style={{ display: "none", backgroundColor: "green" }}
+style={{ color: "green", fontSize: "10px" }}
+*/
+
         </script>
     </body>
 </html>            
