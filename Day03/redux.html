@@ -3,6 +3,60 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>	
 	</head>
 	<body>
+		<button id="getTimeButton">Get Time</button>
+		<h1 id="timeMessage"></h1>
+		<hr/>
+		<button id="getTemperatureButton">Get Temperature</button>
+		<h1 id="temperatureMessage"></h1>
+		<script>
+			let { createStore } = Redux;
+			//To create a store you need two things
+			//you need to define the state
+			//the functions that manipulate the state -> reducers
+			const initialState = {
+				currentTime: '',
+				currentTemperature: ''		
+			};
+			
+			const reducers = (state = initialState, action) => {
+				//LOGIC OF MANIPULATING THE STATE GOES HERE
+				switch (action.type) {
+					case "GIVE_ME_CURRENT_TIME":
+						let now = new Date().toLocaleString();
+						return Object.assign({}, state, { currentTime: now })
+						//return { currentTime: now };
+					case "GIVE_ME_CURRENT_TEMPERATURE":
+						let temperature = Math.random() * 40;
+						return Object.assign({}, state, { currentTemperature: temperature })
+						//return { currentTemperature: temperature };	
+					default:
+						return state;
+				}
+			};
+			
+			const store = createStore(reducers);
+
+			document.getElementById("getTemperatureButton").onclick = () => {
+				store.dispatch({ type: "GIVE_ME_CURRENT_TEMPERATURE" });
+			}
 		
+			document.getElementById("getTimeButton").onclick = () => {
+				store.dispatch({ type: "GIVE_ME_CURRENT_TIME" });
+			}
+			
+			//Non React Code
+			store.subscribe(() => {
+				let { currentTime, currentTemperature } = store.getState();
+				document.getElementById("timeMessage").innerHTML = currentTime;	
+				document.getElementById("temperatureMessage").innerHTML = currentTemperature;	
+			});
+		
+		
+		
+		
+				
+			
+			
+		</script>	
 	</body>		
 </html>
