@@ -23,7 +23,8 @@
 				switch (action.type) {
 					case "GIVE_ME_CURRENT_TIME":
 						let now = new Date().toLocaleString();
-						return Object.assign({}, state, { currentTime: now })
+						return { ...state, currentTime: now };
+						//return Object.assign({}, state, { currentTime: now })
 						//return { currentTime: now };
 					case "GIVE_ME_CURRENT_TEMPERATURE":
 						let temperature = Math.random() * 40;
