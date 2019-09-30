@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/jsx">
+            class PersonForm extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        name: "",
+                        country: "",
+                        message: ""
+                    }
+                }
+                nameChanged(e) {
+                    this.setState({
+                        name: e.target.value
+                    })
+                }
+
+                countryChanged(e) {
+                    this.setState({
+                        country: e.target.value
+                    })
+                }
+
+                addPersonClicked() {
+                    let { name, country } = this.state;
+                    let message = this.props.addPersonHandler(name, country);
+                    this.setState({ message });
+                }
+
+
+                render() {
+                    return (<div>
+                        Name <input type="text" onChange={this.nameChanged.bind(this)}/><br/>
+                        Country <select onChange={this.countryChanged.bind(this)}>
+                            <option>--SELECT--</option>
+                            <option>France</option>
+                            <option>Spain</option>
+                            <option>India</option>
+                        </select>
+                        <br/>
+                        <button onClick={this.addPersonClicked.bind(this)}>Add</button>
+                        <h2>{ this.state.message }</h2>
+                    </div>);
+                }
+            }
+
+            class Lab01 extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        persons: []
+                    }
+                    this.addPerson = this.addPerson.bind(this);
+                }
+
+                addPerson(name, country) {
+                    let { persons } = this.state;
+                    //check if person with same name is available
+                    let existingPerson = persons.find(item => item.name === name);
+                    if(existingPerson) {
+                       return "Person already found"; 
+                    }
+                    else {
+                        let person = {
+                            name,
+                            country,
+                            markedForRemoval: false
+                        };
+                        persons.push(person);
+                        this.setState({ persons });
+                    }
+                    return "Person added successfully";
+                }
+
+                render() {
+                    return (<div>
+                        <PersonForm addPersonHandler={ this.addPerson }/>
+                        <hr/>
+
+                    </div>);
+                }
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (<div>
+                        <Lab01/>
+                    </div>);
+                }
+            }
+            ReactDOM.render(<App/>, document.getElementById("root"));
+        </script>
+    </body>
+</html>            
