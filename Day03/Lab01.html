@@ -51,6 +51,55 @@
                 }
             }
 
+            class PersonDisplay extends React.Component {
+                constructor(props) {
+                    super(props);
+                }
+
+                personChkChanged(name) {
+                    this.props.markPersonForRemovalHandler(name);
+                }
+
+                getPersonRows() {
+                    let { persons } = this.props;
+                    let rows = [];
+                    //convert every person record to a JSX row element
+                    rows = persons.map(item => {
+                        let row = (<tr key={item.name}>
+                            <td>{item.name}</td>
+                            <td>{item.country}</td>
+                            <td><input type="checkbox" 
+                                onChange={this.personChkChanged.bind(this, item.name)}/></td>
+                        </tr>);
+                        return row;
+                    });
+                    return rows;
+                }
+
+                removePersonsClicked() {
+                    this.props.removePersonsHandler();
+                }
+
+                render() {
+                    return (<div style={{ display: this.props.persons.length > 0 ? 'block' : 'none' }}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Country</th>
+                                    <th>SELECT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                { this.getPersonRows() }
+                            </tbody>    
+                        </table>
+                        <br/>
+                        <button onClick={ this.removePersonsClicked.bind(this) }>Remove</button>    
+                    </div>);
+                }
+            }
+
             class Lab01 extends React.Component {
                 constructor(props) {
                     super(props);
@@ -58,7 +107,27 @@
                         persons: []
                     }
                     this.addPerson = this.addPerson.bind(this);
+                    this.removePersons = this.removePersons.bind(this);
+                    this.markPersonForRemoval = this.markPersonForRemoval.bind(this);
                 }
+
+                markPersonForRemoval(name) {
+                    let { persons } = this.state;
+                    let person = persons.find(it => it.name == name);
+                    person.markedForRemoval = !person.markedForRemoval;
+                    this.setState({persons}, () => { console.log(this.state.persons )});
+                }
+
+                removePersons() {
+                    let { persons } = this.state;
+                    //remove all the persons whose markedForRemoval is true
+                    let otherPersons = persons.filter(item => !item.markedForRemoval);
+                    persons = otherPersons;
+                    this.setState({ persons });
+                }
+
+
+
 
                 addPerson(name, country) {
                     let { persons } = this.state;
@@ -83,7 +152,10 @@
                     return (<div>
                         <PersonForm addPersonHandler={ this.addPerson }/>
                         <hr/>
-
+                        <PersonDisplay 
+                            markPersonForRemovalHandler={ this.markPersonForRemoval } 
+                            persons={ this.state.persons }
+                            removePersonsHandler={ this.removePersons }/>
                     </div>);
                 }
             }
