@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> 
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root1"></div>
+        <div id="root2"></div>
+        <script type="text/jsx">
+            class Person extends React.Component {
+                constructor(props) {
+                    super(props);
+                    console.log(props);
+                }
+                render() {
+                    return (<div>
+                        <h1>{ this.props.name }</h1>
+                        <h1>Age: { this.props.age }</h1>
+                        <h1> { this.props.salary == undefined ? '' : `Salary: ${this.props.salary}`} </h1>
+                    </div>);
+                }
+            }
+            ReactDOM.render(<Person name="Sam" age="12" salary="20000"/>, document.getElementById("root1"));
+            ReactDOM.render(<Person name="Ram" age="23"/>, document.getElementById("root2"));
+        </script>
+    </body>
+</html>            

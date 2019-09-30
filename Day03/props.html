@@ -12,9 +12,11 @@
                     super(props);
                     this.getTime = this.getTime.bind(this);
                 }
-                getTime() {
 
+                getTime() {
+                    this.props.handler();
                 }
+
                 render() {
                     return (<div>
                         <button onClick={this.getTime}>Get Time</button>
@@ -28,21 +30,33 @@
                 }
                 render() {
                     return (<div>
-                        <h3>Current time</h3>
+                        <h3>{this.props.time}</h3>
                     </div>)
                 }
             }
-            
-            class App extends React.Component {
+
+            class Mediator extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        currentTime: ''
+                    };
+                    this.calculateTime = this.calculateTime.bind(this);
+                }
+                calculateTime() {
+                    this.setState({
+                        currentTime: new Date().toLocaleString()
+                    })
+                }
                 render() {
                     return (<div>
-                        <Input/>
+                        <Input handler={this.calculateTime}/>
                         <br/>
-                        <Output/>
+                        <Output time={ this.state.currentTime }/>
                     </div>);
                 }
             }    
-            ReactDOM.render(<App/>, document.getElementById("root"));
+            ReactDOM.render(<Mediator/>, document.getElementById("root"));
 
 
         </script>
