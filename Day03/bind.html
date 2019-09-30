@@ -28,10 +28,14 @@
                         time: new Date().toLocaleString()
                     }) */
                 }
-
+                anotherClicked() {
+                    console.log(this);
+                }
+                
                 render() {
                     return (<div>
                         <input type="text" ref={this.name}/>
+                        <button onClick={() => this.anotherClicked()}>Another button</button><br/>
                         <button ref={this.myButton} onClick={this.buttonClicked.bind(this, "hello", 12)}>Get Time</button>
                         <h1>{this.state.time}</h1>
                     </div>);
