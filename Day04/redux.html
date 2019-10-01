@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>	
+	</head>
+	<body>
+		<button id="getTimeButton">Get Time</button>
+		<h1 id="timeMessage"></h1>
+		<hr/>
+		<button id="getTemperatureButton">Get Temperature</button>
+		<h1 id="temperatureMessage"></h1>
+		<hr/>
+		<input type="text" id="nameText" placeholder="Name">
+		<button id="greetButton">Greet</button>
+		<h1 id="greetMessage"></h1>
+		<script>
+			let { createStore, combineReducers } = Redux;
+			const initialState = {
+				currentTime: '',
+				currentTemperature: '',
+				greetMessage: ''		
+			};
+			
+			
+			const timeReducer = (state = initialState, action) => {
+				if(action.type === "GIVE_ME_CURRENT_TIME") {
+					return new Date().toLocaleString();
+				}
+				return state;
+			}
+			
+			const temperatureReducer = (state = initialState, action) => {
+				if(action.type === "GIVE_ME_CURRENT_TEMPERATURE") {
+					return Math.random() * 40;
+				}
+				return state;
+			}
+			const greetReducer = (state = initialState, action) => {
+				if(action.type === "CONSTRUCT_GREET_MESSAGE") {
+					let name = action.payload;
+					let message = `Hello ${name}`;
+					return message;
+				}
+				return state;
+			}
+			
+			
+			let reducers = combineReducers({
+				currentTime: timeReducer,
+				currentTemperature: temperatureReducer,
+				greetMessage: greetReducer
+			});
+			
+			const store = createStore(reducers);
+
+			document.getElementById("greetButton").onclick = () => {
+				let name = document.getElementById("nameText").value;
+				store.dispatch({ type: "CONSTRUCT_GREET_MESSAGE", payload: name });
+			}
+
+			document.getElementById("getTemperatureButton").onclick = () => {
+				store.dispatch({ type: "GIVE_ME_CURRENT_TEMPERATURE" });
+			}
+		
+			document.getElementById("getTimeButton").onclick = () => {
+				store.dispatch({ type: "GIVE_ME_CURRENT_TIME" });
+			}
+			
+			
+			
+			store.subscribe(() => {
+				let { currentTime, currentTemperature, greetMessage } = store.getState();
+				document.getElementById("timeMessage").innerHTML = currentTime.currentTime == undefined ?  currentTime : "";	
+				
+				document.getElementById("temperatureMessage").innerHTML =  currentTemperature.currentTemperature == undefined ? currentTemperature : "";	
+				
+				document.getElementById("greetMessage").innerHTML =  greetMessage.greetMessage == undefined ? greetMessage : "";	
+			});
+		
+		
+		
+		
+				
+			
+			
+		</script>	
+	</body>		
+</html>
