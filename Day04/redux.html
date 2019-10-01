@@ -11,7 +11,7 @@
 		<hr/>
 		<input type="text" id="nameText" placeholder="Name">
 		<button id="greetButton">Greet</button>
-		<h1 id="greetMessage"></h1>
+		<h1 id="message"></h1>
 		<script>
 			let { createStore, combineReducers } = Redux;
 			const initialState = {
@@ -68,12 +68,12 @@
 			
 			
 			store.subscribe(() => {
-				let { currentTime, currentTemperature, greetMessage } = store.getState();
+				let { currentTime, currentTemperature } = store.getState();
 				document.getElementById("timeMessage").innerHTML = currentTime.currentTime == undefined ?  currentTime : "";	
 				
 				document.getElementById("temperatureMessage").innerHTML =  currentTemperature.currentTemperature == undefined ? currentTemperature : "";	
 				
-				document.getElementById("greetMessage").innerHTML =  greetMessage.greetMessage == undefined ? greetMessage : "";	
+				document.getElementById("greetMessage").innerHTML =  message.message == undefined ? message : "";	
 			});
 		
 		
